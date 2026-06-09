@@ -123,6 +123,7 @@ export function AdminDashboard() {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     if (isEditMode) {
+      console.log("[v0] save edit", { editingVehicleId, form: vehicleForm });
       setFleet(prev => prev.map(v =>
         v.id === editingVehicleId
           ? {
