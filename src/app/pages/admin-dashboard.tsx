@@ -115,6 +115,14 @@ export function AdminDashboard() {
     (isEditMode || vehicleForm.dailyRate.trim() !== "");
 
   const handleAddVehicle = async () => {
+    ;(window as unknown as { __saveDebug?: unknown }).__saveDebug = {
+      stage: "entered",
+      isEditMode,
+      editingVehicleId,
+      isFormValid,
+      formModel: vehicleForm.model,
+      formLocation: vehicleForm.location,
+    };
     if (!isFormValid) {
       toast.error(t('Please fill in all required fields'));
       return;
@@ -123,7 +131,12 @@ export function AdminDashboard() {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     if (isEditMode) {
-      console.log("[v0] save edit", { editingVehicleId, form: vehicleForm });
+      ;(window as unknown as { __saveDebug?: unknown }).__saveDebug = {
+        editingVehicleId,
+        formModel: vehicleForm.model,
+        formLocation: vehicleForm.location,
+        ids: fleet.map(v => v.id),
+      };
       setFleet(prev => prev.map(v =>
         v.id === editingVehicleId
           ? {
