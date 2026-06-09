@@ -190,8 +190,6 @@ const dictionary: Record<string, string> = {
   "Manage Booking": "إدارة الحجز",
   "Booking ID:": "معرف الحجز:",
   "Customer Name": "اسم العميل",
-  "Pick-up Date": "تاريخ الاستلام",
-  "Return Date": "تاريخ الإرجاع",
   "Total Amount": "المبلغ الإجمالي",
   "This booking is awaiting approval. Review the details and approve or reject.":
     "هذا الحجز بانتظار الموافقة. راجع التفاصيل ووافق أو ارفض.",

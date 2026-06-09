@@ -38,6 +38,7 @@ import {
   X,
   Eye,
   Pencil,
+  MoreVertical,
   Trash2,
   Archive
 } from "lucide-react";
@@ -109,7 +110,9 @@ export function AdminDashboard() {
     vehicleForm.model.trim() !== "" &&
     vehicleForm.licensePlate.trim() !== "" &&
     vehicleForm.location.trim() !== "" &&
-    vehicleForm.dailyRate.trim() !== "";
+    // Daily rate is only required when adding a new vehicle.
+    // Fleet records don't carry pricing, so editing never re-collects it.
+    (isEditMode || vehicleForm.dailyRate.trim() !== "");
 
   const handleAddVehicle = async () => {
     if (!isFormValid) {
@@ -171,8 +174,8 @@ export function AdminDashboard() {
       location: vehicle.location,
       status: vehicle.status,
     });
-    // Defer opening so the dropdown menu can finish closing (avoids Radix focus conflict)
-    setTimeout(() => setNewVehicleOpen(true), 0);
+    // Open the edit dialog
+    setNewVehicleOpen(true);
   };
 
   const handleNewVehicleOpenChange = (open: boolean) => {
@@ -587,16 +590,26 @@ export function AdminDashboard() {
                         >
                           <Eye className="w-4 h-4" />
                         </Button>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8"
+                          onClick={() => handleEditVehicle(vehicle)}
+                          aria-label={t('Edit')}
+                          title={t('Edit')}
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </Button>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button
                               size="icon"
                               variant="ghost"
                               className="h-8 w-8"
-                              aria-label={t('Edit')}
-                              title={t('Edit')}
+                              aria-label={t('More actions')}
+                              title={t('More actions')}
                             >
-                              <Pencil className="w-4 h-4" />
+                              <MoreVertical className="w-4 h-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
@@ -614,7 +627,7 @@ export function AdminDashboard() {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               className="text-[#EF4444] focus:text-[#EF4444]"
-                              onClick={() => setTimeout(() => setDeleteTarget(vehicle), 0)}
+                              onClick={() => setDeleteTarget(vehicle)}
                             >
                               <Trash2 className="w-4 h-4 mr-2" />
                               {t('Delete')}
